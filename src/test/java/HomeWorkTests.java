@@ -4,7 +4,10 @@ import figure.shapeImpl.Cylinder;
 import figure.shapeImpl.Sphere;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
