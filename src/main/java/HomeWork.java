@@ -1,0 +1,56 @@
+import figure.Shape;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.reverseOrder;
+import static java.util.List.of;
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+
+public class HomeWork {
+
+	public static int[] filterByPositiveAndSort(int[] integers) {
+		return Arrays.stream(integers)
+				.filter(integer -> integer >= 0)
+				.boxed()
+				.sorted(reverseOrder())
+				.mapToInt(Integer::valueOf)
+				.toArray();
+	}
+
+	public static Map<String, Long> findHashTagMessagesAndFindTopFive(List<String> strings) {
+		return strings.stream()
+				.flatMap(HomeWork::parseStringAndRemoveDuplicateHashTag)
+				.collect(groupingBy(identity(), counting()))
+				.entrySet()
+				.stream()
+				.sorted(Map.Entry.comparingByValue(reverseOrder()))
+				.limit(5)
+				.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+
+	}
+
+	public static List<Shape> sortByVolumeNaturalOrder(List<Shape> shapes) {
+		return shapes.stream()
+				.sorted(comparing(Shape::calculateVolume))
+				.collect(toList());
+
+	}
+
+	private static Stream<String> parseStringAndRemoveDuplicateHashTag(String str) {
+		Set<String> strings = new HashSet<>();
+		String regex = "([.#])\\w+";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(str);
+		while (matcher.find()) {
+			strings.add(matcher.group());
+		}
+		return strings.stream();
+	}
+}
