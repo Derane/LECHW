@@ -12,6 +12,8 @@ import static java.util.stream.Collectors.*;
 
 public class HomeWork {
 
+	private static final Pattern startWithHashTagAndUnique = Pattern.compile("([.#])\\w+");
+
 	public static int[] filterByPositiveAndSort(int[] integers) {
 		return Arrays.stream(integers)
 				.filter(integer -> integer >= 0)
@@ -42,9 +44,7 @@ public class HomeWork {
 
 	private static Stream<String> parseStringAndRemoveDuplicateHashTag(String str) {
 		Set<String> strings = new HashSet<>();
-		String regex = "([.#])\\w+";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(str);
+		Matcher matcher = startWithHashTagAndUnique.matcher(str);
 		while (matcher.find()) {
 			strings.add(matcher.group());
 		}
