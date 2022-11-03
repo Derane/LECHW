@@ -24,7 +24,7 @@ public class HomeWorkTests {
 	}
 
 	@Test
-	public void findHashTagMessagesAndFindTopFiveTest() {
+	public void findHashTagMessagesAndFindTopFiveTestWithNoSpaces() {
 		List<String> stringList = new ArrayList<>(List.of("#Java#Kotlin#Java#Kotlin#Link", "#Java"));
 		Map<String, Long> resultMap;
 		resultMap = HomeWork.findHashTagMessagesAndFindTopFive(stringList);
@@ -65,6 +65,32 @@ public class HomeWorkTests {
 		assertThat(resultMap).containsExactlyEntriesOf(linkedHashMap);
 		assertThat(resultMap).doesNotContainEntry("Groovy", 1L);
 
+	}
+
+	@Test
+	public void findHashTagMessagesAndFindTopFiveTestWithSpaces() {
+		List<String> stringList = new ArrayList<>(List.of("#Java #Kotlin Hello #Java There #Kotlin #Link", "#Java"));
+		Map<String, Long> resultMap;
+		resultMap = HomeWork.findHashTagMessagesAndFindTopFive(stringList);
+		LinkedHashMap<String, Long> linkedHashMap = new LinkedHashMap<>();
+		linkedHashMap.put("#Java", 2L);
+		linkedHashMap.put("#Link", 1L);
+		linkedHashMap.put("#Kotlin", 1L);
+		assertThat(resultMap).hasSize(3);
+		assertThat(resultMap).containsExactlyEntriesOf(linkedHashMap);
+		stringList = new ArrayList<>(List.of("#Java #kotlin #Groovy", "2112fdf #Java #Spring #Spring Hello #Java Max", "sasas #Spring #Hibernate #Maven",
+				"#Hibernate #Hibernate", "#kotlin resultMap #Java result", "#Gradlle #Maven #Spring #Gradle",
+				"SAJFLSJFJIvnnx udsewqwoo #Java Spring #Spring #Java", "SSsffa #JDK 123#Maven dSSbvxwx"));
+		resultMap = HomeWork.findHashTagMessagesAndFindTopFive(stringList);
+		linkedHashMap.clear();
+		linkedHashMap.put("#Java", 4L);
+		linkedHashMap.put("#Spring", 4L);
+		linkedHashMap.put("#Maven", 3L);
+		linkedHashMap.put("#Hibernate", 2L);
+		linkedHashMap.put("#kotlin", 2L);
+		assertThat(resultMap).hasSize(5);
+		assertThat(resultMap).containsExactlyEntriesOf(linkedHashMap);
+		assertThat(resultMap).doesNotContainEntry("Groovy", 1L);
 	}
 
 	@Test
