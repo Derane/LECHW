@@ -6,6 +6,6 @@ public record Sphere(double radius) implements Shape {
 
 	@Override
 	public double calculateVolume() {
-		return 4d / 3d * Math.PI * (radius * radius * radius);
+		return 4d / 3d * Math.PI * Math.pow(radius, 3);
 	}
 }
